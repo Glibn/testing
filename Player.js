@@ -54,6 +54,7 @@ export default class Player {
       this.keydown
     );
     window.addEventListener("keyup", this.keyup);
+
     //touch
     window.removeEventListener(
       "touchstart",
@@ -76,6 +77,11 @@ export default class Player {
   touchstart = () => {
     this.jumpPressed = true;
   };
+  keydown = (event) => {
+    if (event.code === "Space") {
+      this.jumpPressed = true;
+    }
+  };
   touchend = () => {
     this.jumpPressed = false;
   };
@@ -87,9 +93,11 @@ export default class Player {
   };
 
   update(gameSpeed, frameTimeDelta) {
-    // console.log(this.jumpPressed);
     this.run(gameSpeed, frameTimeDelta);
-    this.jump(frameTimeDelta);
+
+    if (this.jumpInProgress) {
+      this.Image = this.standingStillImage;
+    }
   }
   jump(frameTimeDelta) {
     if (this.jumPressed) {
